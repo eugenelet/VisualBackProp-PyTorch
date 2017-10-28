@@ -212,6 +212,20 @@ def show_VBP(label, image):
 
 
 
+def save_VBP(label, image):
+	"""Take an array of shape (n, height, width) or (n, height, width, 3)
+	   and visualize each (height, width) thing in a grid of size approx. sqrt(n) by sqrt(n)"""
+	image = image.numpy()
+
+	# normalize data for display
+	data = (image - image.min()) / (image.max() - image.min())
+	data = data[0,0,:,:]
+	data = cv2.resize(data, (224,224))
+	data = (data*255).astype("uint8")
+	# cv2.imwrite(label, data)
+	cv2.imwrite(label, data)
+
+
 def overlay(image, mask):
 	# normalize data for display
 	mask = (mask - mask.min()) / (mask.max() - mask.min())
@@ -282,7 +296,7 @@ if __name__ == "__main__":
 
 	# Save Feature Maps
 	for i in range(len(feat_collection)):
-		cv2.imwrite(FEAT_MAPS_DIR + '/feat_' + str(i) + '.png', feat_collection[i] * 255)
+		cv2.imwrite(FEAT_MAPS_DIR + '/feat_' + str(i) + '_' + IMG_NAME, feat_collection[i] * 255)
 	masks = visualbackprop(layers, maps)
 
 	mask_num = len(masks)
@@ -290,8 +304,11 @@ if __name__ == "__main__":
 	cv2.imshow('ori', image)
 	cv2.moveWindow('ori', 50, 50)
 	for i in range(mask_num):
-		cv2.imwrite(VBP_DIR + '/out_' + str(i) + '.png', (masks[i].numpy() * 255).astype("int")[0][0])
-		show_VBP('vbp_' + str(i) + '.png', masks[i] * 255)
+		# pdb.set_trace()
+		# tmp = cv2.resize((masks[i].numpy() * 255).astype("uint8")[0][0], (224,224))
+		# cv2.imwrite(VBP_DIR + '/out_' + str(i) + '_' + IMG_NAME, tmp.astype("int"))
+		save_VBP(VBP_DIR + '/out_' + str(i) + '_' + IMG_NAME, masks[i])
+		show_VBP('vbp_' + str(i) + '.png', masks[i])
 		cv2.moveWindow('vbp_' + str(i) + '.png', i*30 + 100, i*30 + 100)
 
 
