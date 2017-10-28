@@ -266,14 +266,14 @@ if __name__ == "__main__":
 	BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname('__dir__')))
 	IMG_DIR = './image'
 	# MODEL_DIR = BASE_DIR + '/pretrained_model'
-	IMG_NAME = 'cat1.jpg'
+	IMG_NAME = 'cat2.jpg'
 
 
 	image = cv2.imread(IMG_DIR+'/'+IMG_NAME)
 	image = cv2.resize(image, (224, 224))
 
 	im = Image.fromarray(image)
-	im.save(IMG_DIR+'/'+ 'resized_' +IMG_NAME)
+	im.save('./image/resized_' +IMG_NAME)
 
 	loader = transforms.Compose([
 		transforms.ToTensor(),
