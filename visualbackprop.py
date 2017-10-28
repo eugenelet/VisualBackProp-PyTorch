@@ -196,7 +196,7 @@ def plotFeatMaps(layers,maps):
 	return feat_collection
 
 
-
+# Show VBP Result
 def show_VBP(label, image):
 	"""Take an array of shape (n, height, width) or (n, height, width, 3)
 	   and visualize each (height, width) thing in a grid of size approx. sqrt(n) by sqrt(n)"""
@@ -211,10 +211,8 @@ def show_VBP(label, image):
 	cv2.imshow(label, data)
 
 
-
+# Save VBP Result
 def save_VBP(label, image):
-	"""Take an array of shape (n, height, width) or (n, height, width, 3)
-	   and visualize each (height, width) thing in a grid of size approx. sqrt(n) by sqrt(n)"""
 	image = image.numpy()
 
 	# normalize data for display
@@ -268,7 +266,7 @@ if __name__ == "__main__":
 	BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname('__dir__')))
 	IMG_DIR = './image'
 	# MODEL_DIR = BASE_DIR + '/pretrained_model'
-	IMG_NAME = 'cat2.jpg'
+	IMG_NAME = 'cat1.jpg'
 
 
 	image = cv2.imread(IMG_DIR+'/'+IMG_NAME)
@@ -304,9 +302,6 @@ if __name__ == "__main__":
 	cv2.imshow('ori', image)
 	cv2.moveWindow('ori', 50, 50)
 	for i in range(mask_num):
-		# pdb.set_trace()
-		# tmp = cv2.resize((masks[i].numpy() * 255).astype("uint8")[0][0], (224,224))
-		# cv2.imwrite(VBP_DIR + '/out_' + str(i) + '_' + IMG_NAME, tmp.astype("int"))
 		save_VBP(VBP_DIR + '/out_' + str(i) + '_' + IMG_NAME, masks[i])
 		show_VBP('vbp_' + str(i) + '.png', masks[i])
 		cv2.moveWindow('vbp_' + str(i) + '.png', i*30 + 100, i*30 + 100)
