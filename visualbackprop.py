@@ -31,7 +31,8 @@ hooks=[]
 FEAT_KEEP = 30  # Feature Maps to show
 FEAT_SIZE = 224  # Size of feature maps to show
 FEAT_MAPS_DIR = 'feat_maps'  # dir. to save feat maps
-VBP_DIR = 'VBP_results'
+VBP_DIR = 'VBP_results'  # dir. to save VBP results
+OVERLAY_DIR = "overlay"  # dir. to save overlay results
 
 
 def normalize_gamma(image, gamma=1.0):
@@ -266,14 +267,13 @@ if __name__ == "__main__":
 	BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname('__dir__')))
 	IMG_DIR = './image'
 	# MODEL_DIR = BASE_DIR + '/pretrained_model'
-	IMG_NAME = 'cat2.jpg'
+	IMG_NAME = 'cat1.jpg'
 
 
 	image = cv2.imread(IMG_DIR+'/'+IMG_NAME)
 	image = cv2.resize(image, (224, 224))
 
-	im = Image.fromarray(image)
-	im.save('./image/resized_' +IMG_NAME)
+	cv2.imwrite('./image/resized_' + IMG_NAME, image)
 
 	loader = transforms.Compose([
 		transforms.ToTensor(),
@@ -310,5 +310,5 @@ if __name__ == "__main__":
 	overlay_img = overlay(image, masks[mask_num - 1].numpy())
 	cv2.imshow('overlay', overlay_img)
 	cv2.moveWindow('overlay', 200, 200)
-	cv2.imwrite('overlay.png', overlay_img)
+	cv2.imwrite(OVERLAY_DIR + '/overlay_' + IMG_NAME, overlay_img)
 	cv2.waitKey(0)
